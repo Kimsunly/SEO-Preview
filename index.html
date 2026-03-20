@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO Preview Studio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+<div class="app">
+
+  <!-- ── Topbar ────────────────────────────────────────────── -->
+  <header class="topbar">
+    <a class="logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="7" cy="7" r="5"/>
+          <path d="m13 13-2.5-2.5"/>
+          <path d="M5 7h4M7 5v4" stroke-width="1.5"/>
+        </svg>
+      </div>
+      SEO Studio
+    </a>
+    <div class="topbar-actions">
+      <span class="badge-version">v1.0</span>
+      <button class="btn" onclick="exportMeta()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export
+      </button>
+      <button class="btn btn-primary" onclick="copyMeta()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+        Copy HTML
+      </button>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- ════════════════════════════════════════════════════════
+         LEFT PANEL — EDITOR
+    ════════════════════════════════════════════════════════ -->
+    <aside class="panel-editor">
+      <div class="panel-header">
+        <span class="panel-title">Page Details</span>
+        <span class="panel-meta" id="lastUpdated">—</span>
+      </div>
+
+      <!-- Search Engine -->
+      <div class="section">
+        <div class="section-title">Search Engine</div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-name">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h8m-8 6h16"/></svg>
+              Page Title
+            </span>
+            <span class="char-pill" id="titleCount">0 / 60</span>
+          </div>
+          <input class="field-input" id="titleInput" type="text" placeholder="Enter your page title…" maxlength="120" autocomplete="off" />
+          <div class="progress-bar"><div class="progress-fill" id="titleBar" style="width:0%;background:#535d74;"></div></div>
+          <div class="field-hint" id="titleHint">Aim for 30–60 characters for best results</div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-name">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Meta Description
+            </span>
+            <span class="char-pill" id="descCount">0 / 160</span>
+          </div>
+          <textarea class="field-textarea" id="descInput" placeholder="Write a compelling description of your page content…" maxlength="320"></textarea>
+          <div class="progress-bar"><div class="progress-fill" id="descBar" style="width:0%;background:#535d74;"></div></div>
+          <div class="field-hint" id="descHint">Aim for 70–160 characters for best results</div>
+        </div>
+      </div>
+
+      <!-- URL Structure -->
+      <div class="section">
+        <div class="section-title">URL Structure</div>
+        <div class="field">
+          <div class="field-label"><span class="field-name">Domain / Site Name</span></div>
+          <input class="field-input" id="siteInput" type="text" placeholder="example.com" value="mywebsite.com" autocomplete="off" />
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="field-name">URL Slug</span></div>
+          <input class="field-input" id="slugInput" type="text" placeholder="my-page-slug" autocomplete="off" />
+          <div class="field-hint">Auto-formatted · use hyphens, no spaces</div>
+        </div>
+      </div>
+
+      <!-- Open Graph -->
+      <div class="section">
+        <div class="section-title">Social Sharing (Open Graph)</div>
+        <div class="field">
+          <div class="field-label">
+            <span class="field-name">OG Title</span>
+            <span class="char-pill" id="ogTitleCount">0 / 95</span>
+          </div>
+          <input class="field-input" id="ogTitleInput" type="text" placeholder="Leave empty to use page title" maxlength="200" autocomplete="off" />
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="field-name">OG Description</span></div>
+          <textarea class="field-textarea" id="ogDescInput" placeholder="Leave empty to use meta description" maxlength="400" style="min-height:60px;"></textarea>
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="field-name">Image URL (OG)</span></div>
+          <input class="field-input" id="ogImgInput" type="text" placeholder="https://example.com/og-image.jpg" autocomplete="off" />
+        </div>
+      </div>
+
+      <!-- Advanced -->
+      <div class="section">
+        <div class="section-title">Advanced</div>
+        <div class="field">
+          <div class="field-label"><span class="field-name">Canonical URL</span></div>
+          <input class="field-input" id="canonicalInput" type="text" placeholder="https://example.com/page" autocomplete="off" />
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="field-name">Robots</span></div>
+          <select class="field-input" id="robotsInput">
+            <option value="index, follow">index, follow (default)</option>
+            <option value="noindex, follow">noindex, follow</option>
+            <option value="index, nofollow">index, nofollow</option>
+            <option value="noindex, nofollow">noindex, nofollow</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SEO Score -->
+      <div class="score-card">
+        <div class="score-row">
+          <span class="score-label">SEO Score</span>
+          <div class="score-ring-wrap">
+            <div class="score-ring">
+              <svg viewBox="0 0 52 52" width="52" height="52">
+                <circle class="ring-bg"   cx="26" cy="26" r="22"/>
+                <circle class="ring-fill" id="scoreRing" cx="26" cy="26" r="22" stroke="#535d74" stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
+              </svg>
+            </div>
+            <span class="score-num" id="scoreNum" style="color:var(--text-3);">0</span>
+          </div>
+        </div>
+        <div class="score-items">
+          <div class="score-item fail" id="si-title">   <span class="dot"></span>Title length</div>
+          <div class="score-item fail" id="si-desc">    <span class="dot"></span>Description</div>
+          <div class="score-item fail" id="si-slug">    <span class="dot"></span>URL slug</div>
+          <div class="score-item fail" id="si-keywords"><span class="dot"></span>Has keywords</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ════════════════════════════════════════════════════════
+         RIGHT PANEL — PREVIEW
+    ════════════════════════════════════════════════════════ -->
+    <main class="panel-preview">
+      <div class="panel-header">
+        <span class="panel-title">Live Preview</span>
+        <span class="panel-meta">Updates in real-time</span>
+      </div>
+
+      <div class="preview-inner">
+
+        <!-- Toolbar -->
+        <div class="preview-toolbar">
+          <div class="view-tabs">
+            <button class="view-tab active" id="tabDesktop" onclick="setView('desktop')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Desktop
+            </button>
+            <button class="view-tab" id="tabMobile" onclick="setView('mobile')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              Mobile
+            </button>
+          </div>
+          <div class="engine-tabs">
+            <button class="engine-tab active" id="engineGoogle" onclick="setEngine('google')">Google</button>
+            <button class="engine-tab"        id="engineBing"   onclick="setEngine('bing')">Bing</button>
+          </div>
+        </div>
+
+        <!-- Desktop View -->
+        <div id="viewDesktop">
+
+          <!-- Google frame -->
+          <div class="preview-frame" id="googleDesktopFrame">
+            <div class="g-header">
+              <div class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+              <div class="g-search-bar">
+                <span class="g-search-text" id="gSearchText">Search query…</span>
+                <svg class="g-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </div>
+            </div>
+            <div class="g-body">
+              <div class="g-result-item">
+                <div class="g-breadcrumb">
+                  <div class="g-favicon" id="gFavicon">W</div>
+                  <span class="g-sitename" id="gSitename">mywebsite.com</span>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#5f6368"><path d="M7 10l5 5 5-5z"/></svg>
+                </div>
+                <span class="g-url-crumb" id="gUrlCrumb">mywebsite.com</span>
+                <div style="margin-top:4px;">
+                  <span class="g-title-link" id="gTitle">
+                    <span class="empty-tag" style="font-size:18px;">Your page title will appear here</span>
+                  </span>
+                </div>
+                <div class="g-snippet">
+                  <span class="g-date" id="gDate"></span>
+                  <span id="gSnippet"><span class="empty-tag">Your meta description will appear here. Write something compelling!</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bing frame -->
+          <div class="preview-frame" id="bingDesktopFrame" style="display:none;">
+            <div style="background:#fff;padding:14px 20px;border-bottom:1px solid #e8eaed;display:flex;align-items:center;gap:14px;">
+              <div style="font-size:22px;font-weight:700;color:#008272;font-family:Arial,sans-serif;letter-spacing:-1px;">bing</div>
+              <div style="flex:1;background:#f4f4f8;border-radius:4px;border:1px solid #ddd;padding:8px 14px;font-size:14px;color:#333;font-family:Arial,sans-serif;" id="bSearchText">Search query…</div>
+            </div>
+            <div style="background:#fff;padding:12px 20px 20px;">
+              <div style="font-size:12px;color:#767676;font-family:Arial,sans-serif;margin-bottom:4px;" id="bUrlLine">mywebsite.com</div>
+              <div style="font-size:18px;font-family:Arial,sans-serif;font-weight:400;cursor:pointer;line-height:1.3;word-break:break-word;" id="bTitle">
+                <span class="empty-tag">Your page title will appear here</span>
+              </div>
+              <div style="font-size:13px;color:#666;line-height:1.6;margin-top:6px;font-family:Arial,sans-serif;word-break:break-word;" id="bSnippet">
+                <span class="empty-tag">Your meta description will appear here.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile View -->
+        <div id="viewMobile" style="display:none;">
+          <div class="mobile-wrap">
+            <div class="mobile-device">
+
+              <!-- Status bar -->
+              <div class="mobile-statusbar">
+                <span class="mobile-statusbar-time">9:41</span>
+                <div class="mobile-statusbar-icons">
+                  <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                    <rect x="0" y="9" width="3" height="3" rx="0.5"/><rect x="4" y="6" width="3" height="6" rx="0.5"/>
+                    <rect x="8" y="3" width="3" height="9" rx="0.5"/><rect x="12" y="0" width="3" height="12" rx="0.5"/>
+                  </svg>
+                  <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M1 6c3-3 7-5 11-5s8 2 11 5"/><path d="M5 10c2-2 4-3 7-3s5 1 7 3"/>
+                    <path d="M9 14c1-1 2-1.5 3-1.5s2 .5 3 1.5"/><circle cx="12" cy="17" r="1" fill="currentColor"/>
+                  </svg>
+                  <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                    <rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="currentColor" stroke-width="1"/>
+                    <rect x="2" y="2" width="15" height="8" rx="1.5" fill="currentColor"/>
+                    <path d="M22 4v4a2 2 0 000-4z" fill="currentColor" opacity="0.4"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Dynamic island -->
+              <div class="mobile-island"><div class="mobile-island-pill"></div></div>
+
+              <!-- Browser chrome -->
+              <div class="mobile-chrome">
+                <div class="mobile-url-bar">
+                  <svg class="mobile-url-lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+                  </svg>
+                  <span class="mobile-url-text" id="mUrlText">google.com/search</span>
+                </div>
+              </div>
+
+              <!-- Google result -->
+              <div class="mobile-content">
+                <div class="m-header">
+                  <div class="m-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+                  <div class="m-search-bar" id="mSearchBar">Search query…</div>
+                </div>
+                <div class="m-result">
+                  <div class="m-breadcrumb">
+                    <div class="m-favicon" id="mFavicon">W</div>
+                    <span class="m-sitename" id="mSitename">mywebsite.com</span>
+                    <span class="m-url-crumb" id="mUrlCrumb"></span>
+                  </div>
+                  <div class="m-title"   id="mTitle">  <span class="empty-tag">Your page title will appear here</span></div>
+                  <div class="m-snippet" id="mSnippet"><span class="empty-tag">Your meta description will appear here.</span></div>
+                </div>
+              </div>
+
+              <!-- Home bar -->
+              <div class="mobile-homebar"><div class="mobile-homebar-line"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generated Meta Tags -->
+        <div class="meta-panel">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+            <div class="meta-panel-title">Generated HTML Meta Tags</div>
+            <button class="copy-btn" id="copyCodeBtn" onclick="copyMeta()">Copy</button>
+          </div>
+          <div class="code-block" id="codeBlock">
+            <span class="code-punct">&lt;!-- Fill in the fields on the left to generate tags --&gt;</span>
+          </div>
+        </div>
+
+        <!-- SEO Checklist -->
+        <div class="checks-panel">
+          <div class="meta-panel-title" style="margin-bottom:0.75rem;">SEO Checklist</div>
+
+          <div class="check-row" id="ck-title">
+            <div class="check-icon fail"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+            <div><div class="check-name">Page title present &amp; optimized</div><div class="check-detail" id="ck-title-d">Add a title between 30–60 characters</div></div>
+          </div>
+
+          <div class="check-row" id="ck-desc">
+            <div class="check-icon fail"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+            <div><div class="check-name">Meta description present &amp; optimized</div><div class="check-detail" id="ck-desc-d">Add a description between 70–160 characters</div></div>
+          </div>
+
+          <div class="check-row" id="ck-slug">
+            <div class="check-icon fail"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+            <div><div class="check-name">Clean URL slug</div><div class="check-detail" id="ck-slug-d">Add a URL slug</div></div>
+          </div>
+
+          <div class="check-row" id="ck-og">
+            <div class="check-icon fail"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+            <div><div class="check-name">Open Graph tags configured</div><div class="check-detail" id="ck-og-d">Add OG title or description for social sharing</div></div>
+          </div>
+
+          <div class="check-row" id="ck-robots">
+            <div class="check-icon pass"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div class="check-name">Robots directive set</div><div class="check-detail" id="ck-robots-d">index, follow</div></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast">
+  <svg class="toast-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Done!</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
