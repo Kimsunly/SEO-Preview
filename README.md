@@ -153,7 +153,7 @@ No frameworks. No libraries. No backend.
 | Name | GitHub |
 |---|---|
 | Ly Kimsun | [@kimsunly-github](https://github.com) |
-| Ly Menghong | [@your-github](https://github.com) |
+| Ly Menghong | [@MenghongLy](https://github.com) |
 | Reth Chanrith | [@your-github](https://github.com) |
 | Pech Suyheng | [@your-github](https://github.com) |
 | Thoeurn Kimchhay | [@your-github](https://github.com) |
